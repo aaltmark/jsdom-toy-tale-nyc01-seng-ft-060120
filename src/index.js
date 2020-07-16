@@ -44,24 +44,60 @@ document.addEventListener("DOMContentLoaded", () => {
       toyFormContainer.style.display = "none";
     }
   });
+
+  
+
   const newToyForm = document.querySelector(".add-toy-form")
+  
+  console.log(newToyForm)
   newToyForm.addEventListener("submit", function(e){
-    fetch ("http://localhost:3000/toys"), {
+    e.preventDefault();
+    const data = {
+      "name": newToyForm.name.value,
+      "image": newToyForm.image.value,
+      "likes": 0
+    }
+    fetch ("http://localhost:3000/toys", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json"
       },
-      body: JSON.stringify({
-        "name": "Jessie",
-        "image": "https://vignette.wikia.nocookie.net/p__/images/8/88/Jessie_Toy_Story_3.png/revision/latest?cb=20161023024601&path-prefix=protagonist",
-        "likes": 0
-      })
+      body: JSON.stringify(data)
+    })
+  
       .then(response => response.json())
       .then(toy => {
-        makeCard(toy); 
-        console.log(toy)
+        makeCard(toy)
       })
     }
-  })
+  )
+
+   const toyList = document.getElementById('toy-collection')
+   toyList.addEventListener('click', function(e) {
+     if (e.target.matches('.like-btn')) {
+       const clickedButton = e.target
+       const parentDiv = clickedButton.parentElement
+       const pTag = parentDiv.querySelector('p')
+       pTag.innerText = parseInt(pTag.innerText, 10) + 1 + ' Likes'
+       const trial = {
+         id: 1
+       }
+       fetch (`http://localhost:3000/toys/${trial.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(trial)
+       })
+       .then(response => response.json())
+      .then(function(json) {
+        console.log(json)
+      })
+     }
+
+
+   })
+  
 });
