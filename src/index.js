@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const newToyForm = document.querySelector(".add-toy-form")
   
-  console.log(newToyForm)
+  
   newToyForm.addEventListener("submit", function(e){
     e.preventDefault();
     const data = {
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
       })
     }
   )
-
+  const clickHandler = () => {
    const toyList = document.getElementById('toy-collection')
    toyList.addEventListener('click', function(e) {
      if (e.target.matches('.like-btn')) {
@@ -80,24 +80,28 @@ document.addEventListener("DOMContentLoaded", () => {
        const parentDiv = clickedButton.parentElement
        const pTag = parentDiv.querySelector('p')
        pTag.innerText = parseInt(pTag.innerText, 10) + 1 + ' Likes'
-       const trial = {
-         id: 1
-       }
-       fetch (`http://localhost:3000/toys/${trial.id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        },
-        body: JSON.stringify(trial)
-       })
-       .then(response => response.json())
-      .then(function(json) {
-        console.log(json)
-      })
+      
      }
 
 
    })
-  
+  }
+
+  //  fetch (`http://localhost:3000/toys/${id}`, {
+  //   method: "PATCH",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     "Accept": "application/json"
+  //   },
+  //   body: JSON.stringify(trial)
+  //  })
+  //  .then(response => response.json())
+  // .then(id =>  {
+  //   clickHandler(id)
+  // })
+
+
+   clickHandler()
+
+
 });
