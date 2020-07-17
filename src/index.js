@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const toyCollection = document.getElementById("toy-collection")
       const toyDiv = document.createElement("div")
       toyDiv.className = "card"
+      toyDiv.id = toy.id
       let h2 = document.createElement("h2")
       h2.innerHTML = `${toy.name}`
       toyDiv.append(h2)
@@ -72,36 +73,40 @@ document.addEventListener("DOMContentLoaded", () => {
       })
     }
   )
-  const clickHandler = () => {
+  
    const toyList = document.getElementById('toy-collection')
-   toyList.addEventListener('click', function(e) {
-     if (e.target.matches('.like-btn')) {
-       const clickedButton = e.target
-       const parentDiv = clickedButton.parentElement
-       const pTag = parentDiv.querySelector('p')
-       pTag.innerText = parseInt(pTag.innerText, 10) + 1 + ' Likes'
-      
+   toyList.addEventListener('click', function(event) {
+     if (event.target.matches('.like-btn')) {
+       increaseLikes(event)
      }
 
-
    })
-  }
 
-  //  fetch (`http://localhost:3000/toys/${id}`, {
-  //   method: "PATCH",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     "Accept": "application/json"
-  //   },
-  //   body: JSON.stringify(trial)
-  //  })
-  //  .then(response => response.json())
-  // .then(id =>  {
-  //   clickHandler(id)
-  // })
+   function increaseLikes(event) {
+     let id = event.target.parentNode.id
+     let clickedButton = event.target
+     let parentDiv = clickedButton.parentElement
+     let pTag = parentDiv.querySelector('p')
+     let count = pTag.innerText = parseInt(pTag.innerText, 10) + 1 
 
+   
 
-   clickHandler()
+   fetch (`http://localhost:3000/toys/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    },
+    body: JSON.stringify({
+      'likes': count
+    })
+   })
+   .then(response => response.json())
+  .then(pTag.innerText = count + ' likes')
+  
+
+ }
+   
 
 
 });
